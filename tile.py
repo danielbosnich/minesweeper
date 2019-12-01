@@ -9,7 +9,8 @@ from tkinter import Button, Label
 
 class Tile():
     """Class that represents a tile on the minesweeper board"""
-    def __init__(self, column, row, size):
+    def __init__(self, column, row, size, offset):
+        # Instance variables
         self.is_mine = False # Instantiate the tile without a mine
         self.is_hidden = True
         self.num_adjacent_mines = None
@@ -17,23 +18,25 @@ class Tile():
         self.column = column
         self.row = row
         self.position = {'x': None, 'y': None}
-        self.tile_size = size
         self.button = None
         self.button_type = None
+        self._tile_size = size
+        # Initialization methods
+        self._add_display_position(offset)
 
-    def add_display_position(self, offset):
+    def _add_display_position(self, offset):
         """Add the x position and y position instance variables for the tile
         location in the display"""
-        self.position['x'] = self.column * self.tile_size
-        self.position['y'] = self.row * self.tile_size + offset
+        self.position['x'] = self.column * self._tile_size
+        self.position['y'] = self.row * self._tile_size + offset
 
     def create_button(self, display):
         """Creates the button"""
         self.button = Button(display, relief="raised")
         self.button.place(x=self.position['x'],
                           y=self.position['y'],
-                          height=self.tile_size,
-                          width=self.tile_size)
+                          height=self._tile_size,
+                          width=self._tile_size)
 
     def create_label(self, display):
         """Creates the label. Label was chosen here instead of creating a
@@ -43,8 +46,8 @@ class Tile():
         self.button = Label(display, relief="raised")
         self.button.place(x=self.position['x'],
                           y=self.position['y'],
-                          height=self.tile_size,
-                          width=self.tile_size)
+                          height=self._tile_size,
+                          width=self._tile_size)
 
     def set_button_color(self, bg_color, fg_color=None):
         self.button.configure(bg=bg_color,

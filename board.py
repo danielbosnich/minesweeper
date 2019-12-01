@@ -13,16 +13,18 @@ from tile import Tile
 class Board():
     """Class that represents the minesweeper board"""
     def __init__(self, level):
+        # Instance variables
         self.rows = None
         self.columns = None
         self.mines = None
-        self.tile_size = level_info[level]['tile_size']
         self.num_mines_left = None
         self.tiles = {}
-        self.__set_board_info(level)
-        self.__create_tiles(60) # Offset is 60 pixels
+        self._tile_size = level_info[level]['tile_size']
+        # Initialization methods
+        self._set_board_info(level)
+        self._create_tiles(60) # Offset is 60 pixels
 
-    def __set_board_info(self, level):
+    def _set_board_info(self, level):
         """Sets the board info based on the difficulty level"""
         self.rows = level_info[level]['rows']
         self.columns = level_info[level]['columns']
@@ -31,14 +33,13 @@ class Board():
         logging.debug("Setting up the board with %i columns, %i rows, and "
                       "%i mines", self.columns, self.rows, self.mines)
 
-    def __create_tiles(self, offset):
+    def _create_tiles(self, offset):
         """Creates the tile objects and adds them to the tiles dictionary"""
         for column in range(self.columns):
             for row in range(self.rows):
                 tile_name = str(column) + ',' + str(row)
-                self.tiles[tile_name] = Tile(column, row, self.tile_size)
-        for tile in self.tiles.values():
-            tile.add_display_position(offset)
+                self.tiles[tile_name] = Tile(column, row, self._tile_size,
+                                             offset)
 
     def count_adjacent_mines(self, column, row):
         """Counts the number of adjacent tiles that have a mine"""
