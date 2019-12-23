@@ -30,8 +30,8 @@ class Board():
         self.columns = level_info[level]['columns']
         self.mines = level_info[level]['mines']
         self.num_mines_left = level_info[level]['mines']
-        logging.debug("Setting up the board with %i columns, %i rows, and "
-                      "%i mines", self.columns, self.rows, self.mines)
+        logging.debug(f'Setting up the board with {self.columns} columns, '
+                      f'{self.rows} rows, and {self.mines} mines')
 
     def _create_tiles(self, offset):
         """Creates the tile objects and adds them to the tiles dictionary"""
@@ -59,10 +59,8 @@ class Board():
                         test_tile = str(test_column) + ',' + str(test_row)
                         if self.tiles[test_tile].is_mine:
                             num_adjacent_mines += 1
-        logging.debug("The tile at column %s, row %s has %i adjacent mine(s)",
-                      column,
-                      row,
-                      num_adjacent_mines)
+        logging.debug(f'The tile at column {column}, row {row} has '
+                      f'{num_adjacent_mines} adjacent mine(s)')
         return num_adjacent_mines
 
     def set_the_mines(self, tile):
@@ -90,12 +88,10 @@ class Board():
                     (rand_column in restricted_columns and
                      rand_row in restricted_rows)):
                 self.tiles[tile_name].is_mine = True
-                logging.debug("Mine placed at column %i, row %i",
-                              rand_column,
-                              rand_row)
+                logging.debug(f'Mine placed at column {rand_column}, row '
+                              f'{rand_row}')
                 num_mines_placed += 1
-                logging.debug("The number of mines placed is: %i",
-                              num_mines_placed)
+                logging.debug(f'{num_mines_placed} mines have been placed')
 
         # Figure out how many adjacent mines each tile has
         for column in range(self.columns):
@@ -125,10 +121,8 @@ class Board():
                         test_tile = self.tiles[test_tile_location]
                         if test_tile.is_flag_set:
                             num_adjacent_flags += 1
-        logging.debug("The tile at column %s, row %s has %i adjacent flag(s)",
-                      test_column,
-                      test_row,
-                      num_adjacent_flags)
+        logging.debug(f'The tile at column {test_column}, row {test_row} has '
+                      f'{num_adjacent_flags} adjacent flag(s)')
         return num_adjacent_flags
 
     def check_if_all_tiles_cleared(self):
