@@ -140,16 +140,16 @@ class LevelChoiceDisplay():
 
     def _set_level(self, event, chosen_level):
         """Sets the game level and closes the level choice display"""
-        logging.debug("The button event info is: %s", event)
+        logging.debug(f'The button event info is: {event}')
         self.level = chosen_level
         self.play_game = self._check_var_play.get()
         self.view_leaderboard = self._check_var_view.get()
         if self.play_game:
-            logging.info("The user chose to play a game at level %s",
-                         self.level)
+            logging.info(f'The user chose to play a game at level: '
+                         f'{self.level}')
         else:
-            logging.info("The user chose to view the leaderboard for level %s",
-                         self.level)
+            logging.info(f'The user chose to view the leaderboard for level: '
+                         f'{self.level}')
         self.root.destroy()
 
     def _update_view_check(self):
@@ -397,5 +397,5 @@ class TimesDisplay():
 
 def update_button_color(event, button, color):
     """Updates the passed button's color"""
-    logging.debug("The button event info is: %s", event)
+    logging.debug(f'The button event info is: {event}')
     button.configure(bg=color, activebackground=color)
