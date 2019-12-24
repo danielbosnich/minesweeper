@@ -46,7 +46,7 @@ class Game():
 
     def start_game(self):
         """Starts the game by creating the board"""
-        logging.info("Starting a game at level: %s", self._game_level)
+        logging.info(f'Starting a game at level: {self._game_level}')
         self._board = Board(self._game_level)
         self._create_display()
 
@@ -63,7 +63,7 @@ class Game():
 
     def _create_display(self):
         """Creates the minesweeper board display"""
-        logging.debug("Creating the minesweeper board display")
+        logging.debug('Creating the minesweeper board display')
         self.board_display = BoardDisplay(self._game_level)
         self.board_display.root.protocol("WM_DELETE_WINDOW",
                                          self._close_window)
@@ -88,18 +88,18 @@ class Game():
         """Updates the proper flags and ensures that threads are closed before
         closing the window"""
         self._closing_game = True
-        logging.debug("Closing the main window")
+        logging.debug('Closing the main window')
         # Wait for the timer thread to close
         loop_count = 0
         if self._timer_thread:
-            logging.info(self._timer_thread)
+            logging.info(f'Timer thread: {self._timer_thread}')
             while self._timer_thread.is_alive():
                 loop_count += 1
-                logging.debug("Waiting another .15 seconds for the timer "
-                              "thread to close")
+                logging.debug('Waiting another .15 seconds for the timer '
+                              'thread to close')
                 if loop_count > 7:
-                    logging.info("Timer thread took longer than 1 second to "
-                                 "close")
+                    logging.info('Timer thread took longer than 1 second to '
+                                 'close')
                     # TODO: Throw an exception here
                     break
                 time.sleep(.15)
@@ -127,10 +127,9 @@ class Game():
                                VALUES (?,?,?)"""
             cur.execute(sql_statement, insert_values)
             conn.commit()
-            logging.info("Adding a database entry for the start of a game "
-                         "with level: %s, and start time: %s",
-                         self._game_level,
-                         start_time)
+            logging.info(f'Adding a database entry for the start of a game '
+                         f'with level: {self._game_level}, and start time: '
+                         f'{start_time}')
             self._db_id = cur.lastrowid
         else:
             # Update the table when the game has finished
@@ -149,17 +148,14 @@ class Game():
                                WHERE id = ?"""
             cur.execute(sql_statement, insert_values)
             conn.commit()
-            logging.info("Updating entry #%i in the database by adding game "
-                         "won: %s, game run time: %i, game over: %s, and "
-                         "end time: %s",
-                         self._db_id,
-                         self._game_won,
-                         self.game_run_time,
-                         self._game_over,
-                         end_time)
+            logging.info(f'Updating entry #{self._db_id} in the database by '
+                         f'adding game won: {self._game_won}, game run time: '
+                         f'{self.game_run_time}, game over: {self._game_over},'
+                         f' and end time: {end_time}')
+
             if self._game_won:
                 self._check_for_fastest_time(conn, cur)
-        logging.info("Closing the database connection")
+        logging.info('Closing the database connection')
         conn.close()
 
     def display_fastest_times(self):
@@ -174,8 +170,8 @@ class Game():
         times_list = cur.fetchall()
 
         if not times_list:
-            logging.info("There are no saved times for level: %s",
-                         self._game_level)
+            logging.info(f'There are no saved times for level: '
+                         f'{self._game_level}')
             return
         else:
             sorted_times_list = sorted(times_list, key=lambda x: x[0])
@@ -193,9 +189,9 @@ class Game():
 
         # If this is the first entry, then it must be the fastest
         if not times_list:
-            logging.info("This is the first entry in the fastest times table "
-                         "for level: %s", self._game_level)
-            logging.info("Getting user info for a top time")
+            logging.info(f'This is the first entry in the fastest times table '
+                         f'for level: {self._game_level}')
+            logging.info('Getting user info for a top time')
             self._show_top_times(True, [], 1)
             self._update_fastest_times(conn, cur, 1)
             return
@@ -210,12 +206,12 @@ class Game():
             else:
                 rank += 1
         if rank == 1:
-            logging.info("Congrats! You just set the fastest time for "
-                         "level: %s", self._game_level)
+            logging.info(f'Congrats! You just set the fastest time for '
+                         f'level: {self._game_level}')
 
         # If there are less than 10 entries, just insert the new time
         if len(sorted_times_list) < 10:
-            logging.info("Getting user info for a top time")
+            logging.info('Getting user info for a top time')
             self._show_top_times(True, sorted_times_list, rank)
             self._update_fastest_times(conn, cur, rank)
 
@@ -224,23 +220,22 @@ class Game():
         # and remove the entry with the slowest time
         else:
             if rank <= 10:
-                logging.info("Getting user info for a top time")
+                logging.info('Getting user info for a top time')
                 self._show_top_times(True, sorted_times_list, rank)
                 self._update_fastest_times(conn, cur, rank, sorted_times_list)
             else:
-                logging.info("The previous game with a run time of %i seconds "
-                             "does not qualify as one of the top 10 fastest "
-                             "times for level %s",
-                             self.game_run_time,
-                             self._game_level)
+                logging.info(f'The previous game with a run time of '
+                             f'{self.game_run_time} seconds does not qualify '
+                             f'one of the top 10 fastest times for level '
+                             f'{self._game_level}')
 
     def _update_fastest_times(self, conn, cur, rank, sorted_times_list=None):
         """Updates the fastest times table by adding an entry and by
         optionally deleting the slowest entry"""
         # Make sure the username was set before adding or deleting an entry
         if not self._username:
-            logging.warning("Aborting fastest times table update because "
-                            "one of the windows was closed")
+            logging.warning('Aborting fastest times table update because '
+                            'one of the windows was closed')
             return
 
         # Delete the slowest entry if a list of times was passed
@@ -255,9 +250,9 @@ class Game():
             sql_statement = "DELETE FROM fastest_times WHERE id=?"
             cur.execute(sql_statement, (slow_id,))
             conn.commit()
-            logging.info("Removing the 10th place entry from the fastest "
-                         "times table which had run time: %i seconds",
-                         slowest_time)
+            logging.info(f'Removing the 10th place entry from the fastest '
+                         f'times table which had run time: {slowest_time} '
+                         f'seconds')
 
         # Update the table with the new entry
         insert_values = (self._game_level,
@@ -268,13 +263,9 @@ class Game():
                          "VALUES (?,?,?)")
         cur.execute(sql_statement, insert_values)
         conn.commit()
-        logging.info("Adding an entry to the fastest times table with "
-                     "rank: %i, level: %s, run time: %i, and "
-                     "username: %s",
-                     rank,
-                     self._game_level,
-                     self.game_run_time,
-                     self._username)
+        logging.info(f'Adding an entry to the fastest times table with rank: '
+                     f'{rank}, level: {self._game_level}, run time: '
+                     f'{self.game_run_time}, and username: {self._username}')
 
     def _show_top_times(self, get_input, sorted_times_list, rank=-1):
         """Creates an entry line and enter button where the user can enter
@@ -285,14 +276,14 @@ class Game():
             times_display_height = times_display_height + 60
             if len(sorted_times_list) < 10:
                 times_display_height = times_display_height + 60
-        logging.debug("Creating a display with height: %i",
-                      times_display_height)
+        logging.debug(f'Creating a display with height: '
+                      f'{times_display_height}')
         self._times_display = TimesDisplay(get_input, times_display_height)
 
         # Add the times and usernames
         entry_num = 1
         if rank != -1:
-            logging.info("The passed time rank is: %i", rank)
+            logging.info(f'The passed time rank is: {rank}')
         for entry in sorted_times_list:
             logging.debug(entry)
             # If the entry number is equal to the rank being added, then
@@ -335,20 +326,20 @@ class Game():
             self.board_display.root.wait_window(self._times_display.root)
         else:
             self._times_display.root.mainloop()
-        logging.info("The input window has been closed")
+        logging.info('The input window has been closed')
 
     def _check_user_input(self, event):
         """Checks the user input and then closes the window"""
-        logging.debug("The button event info is: %s", event)
+        logging.debug(f'The button event info is: {event}')
         input_text = self._times_display.input_var.get()
         if input_text == "":
-            logging.warning("The input text was empty, please try again.")
+            logging.warning('The input text was empty, please try again.')
         elif input_text is not None:
-            logging.info("The passed text was: %s", input_text)
+            logging.info(f'The passed text was: {input_text}')
             self._username = input_text
             self._times_display.root.destroy()
         else:
-            logging.error("Error, the input text variable was undefined")
+            logging.error('Error, the input text variable was undefined')
 
     def _update_header(self, smiley_type, display_time=0, num_mines=None):
         """Updates the smiley face button, the mine number label, and the
@@ -379,7 +370,7 @@ class Game():
                 if self._closing_game or self._game_over:
                     return
                 time.sleep(.5)
-            logging.info("Closing the timer thread")
+            logging.info('Closing the timer thread')
         # If the game isn't currently running, populate the timer label
         # with the passed time
         else:
@@ -409,7 +400,7 @@ class Game():
 
     def _set_button_clicked(self, event, button):
         """Sets the button clicked flags"""
-        logging.debug("The button event info is: %s", event)
+        logging.debug(f'The button event info is: {event}')
         if button == 'right':
             self._is_right_clicked = True
         elif button == 'left':
@@ -418,7 +409,7 @@ class Game():
 
     def _set_button_unclicked(self, event, button):
         """Sets the button clicked flags"""
-        logging.debug("The button event info is: %s", event)
+        logging.debug(f'The button event info is: {event}')
         if button == 'right':
             self._is_right_clicked = False
         elif button == 'left':
@@ -427,10 +418,8 @@ class Game():
 
     def _update_button(self, tile):
         """Updates the tile button"""
-        logging.debug("Updating the button of type '%s' at column %s, row %s",
-                      tile.button_type,
-                      tile.column,
-                      tile.row)
+        logging.debug(f'Updating the button of type: {tile.button_type} at '
+                      f'column {tile.column}, row {tile.row}')
         # Delete the previous button bindings
         tile.button.unbind("<ButtonRelease-1>")
         tile.button.unbind("<ButtonRelease-3>")
@@ -467,10 +456,8 @@ class Game():
     def _empty_tile_recursive_check(self, tile):
         """If the user clicks on an empty tile - no adjacent mines - then this
         function will uncover all self-contained empty tiles"""
-        logging.debug("Running the empty tile recursive check on the tile at "
-                      "column %i, row %i",
-                      tile.column,
-                      tile.row)
+        logging.debug(f'Running the empty tile recursive check on the tile at '
+                      f'column {tile.column}, row {tile.row}')
         for i in range(-1, 2):
             for j in range(-1, 2):
                 test_column = tile.column + i
@@ -495,7 +482,7 @@ class Game():
         """Checks if the user is attempting a left and right click at the same
         time, meaning that we should uncover all adjacent tiles at once. If
         just one button is pressed, the appropriate function is then called"""
-        logging.debug("The button event info is: %s", event)
+        logging.debug(f'The button event info is: {event}')
         if ((button == 'right' and self._is_left_clicked) or
                 (button == 'left' and self._is_right_clicked)):
             self.board_display.update_smiley_button('smiley')
@@ -538,26 +525,23 @@ class Game():
     def _update_flag(self, tile):
         """Add a flag to a tile, or remove it if there's already one there"""
         if not tile.is_flag_set:
-            logging.debug("Adding a flag to the tile at column %s, row %s",
-                          tile.column,
-                          tile.row)
+            logging.debug(f'Adding a flag to the tile at column {tile.column},'
+                          f' row {tile.row}')
             tile.is_flag_set = True
             self._board.num_mines_left -= 1
-            logging.debug("There are now %i mines left to clear",
-                          self._board.num_mines_left)
+            logging.debug(f'There are now {self._board.num_mines_left} mines '
+                          f'left to clear')
             self._update_mine_counter_display(self._board.num_mines_left)
             tile.button_type = 'flag'
             self._update_button(tile)
 
         elif tile.is_flag_set:
-            logging.debug("Removing the flag from the tile at column %s, "
-                          "row %s",
-                          tile.column,
-                          tile.row)
+            logging.debug(f'Removing the flag from the tile at column '
+                          f'{tile.column}, row {tile.row}')
             tile.is_flag_set = False
             self._board.num_mines_left += 1
-            logging.debug("There are now %i mines left to clear",
-                          self._board.num_mines_left)
+            logging.debug(f'There are now {self._board.num_mines_left} mines '
+                          f'left to clear')
             self._update_mine_counter_display(self._board.num_mines_left)
             tile.button_type = 'blank'
             self._update_button(tile)
@@ -565,8 +549,8 @@ class Game():
     def _select_tile(self, tile, recursive_check):
         """Check a tile and see if it was hiding a mine"""
         if self._is_first_tile:
-            logging.debug("The first tile of the game was selected, now "
-                          "setting all the mines")
+            logging.debug('The first tile of the game was selected, now '
+                          'setting all the mines')
             self._start_game_timer()
             self._board.set_the_mines(tile)
             self._is_first_tile = False
@@ -577,15 +561,14 @@ class Game():
                                                   self._update_timer_display)
             self._timer_thread.daemon = True
             self._timer_thread.start()
-            logging.info("Started timer thread: %s", self._timer_thread)
+            logging.info(f'Started timer thread: {self._timer_thread}')
 
         if tile.is_mine and not tile.is_flag_set:
             self._game_won = False
             self._show_game_over(tile)
         elif not tile.is_mine:
-            logging.debug("Selecting the tile at column %s, row %s",
-                          tile.column,
-                          tile.row)
+            logging.debug(f'Selecting the tile at column {tile.column}, row '
+                          f'{tile.row}')
             tile.is_hidden = False
             if tile.num_adjacent_mines is None:
                 tile.disable_button(self.board_display.root)
@@ -611,11 +594,11 @@ class Game():
         self._game_over = True
 
         if self._game_won:
-            logging.info("Congrats! You safely cleared all the mines!")
+            logging.info('Congrats! You safely cleared all the mines!')
             self._update_header('cool', self.game_run_time, 0)
         elif not self._game_won:
             self._update_header('dead', self.game_run_time)
-            logging.info("Sorry, you exploded. Better luck next time!")
+            logging.info('Sorry, you exploded. Better luck next time!')
         if exploded_tile:
             exploded_x_pos = exploded_tile.position['x']
             exploded_y_pos = exploded_tile.position['y']
@@ -653,21 +636,21 @@ class Game():
         # Delete the whole display so the main thread can create a new one.
         # Due to Tkinter threading specifications, each instance of the game
         # needs to be started from the main thread.
-        logging.info("Closing the window and starting another game")
+        logging.info('Closing the window and starting another game')
         self._close_window()
 
     def _start_game_timer(self):
         """Starts the game timer"""
         self._game_start_time = time.time()
-        logging.debug("The game started at: %s", time.ctime())
+        logging.debug(f'The game started at: {time.ctime()}')
 
     def _end_game_timer(self):
         """Ends the game timer and calculates the game run time"""
         self._game_end_time = time.time()
-        logging.debug("The game ended at: %s", time.ctime())
+        logging.debug(f'The game ended at: {time.ctime()}')
         self.game_run_time = int(round(self._game_end_time -
                                         self._game_start_time, 0))
-        logging.info("The game lasted %i seconds", self.game_run_time)
+        logging.info(f'The game lasted {self.game_run_time} seconds')
 
 
 def create_tables():
