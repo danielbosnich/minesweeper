@@ -8,15 +8,15 @@ Created on Thu Jun 27 19:08:36 2019
 
 # Dictionary with number colors based on number of adjacent mines
 number_colors = {
-    None: "pink", # Should never be shown
-    1: "blue",
-    2: "green",
-    3: "red",
-    4: "purple",
-    5: "maroon",
-    6: "turquoise",
-    7: "black",
-    8: "grey"
+    None: 'pink', # Should never be shown
+    1: 'blue',
+    2: 'green',
+    3: 'red',
+    4: 'purple',
+    5: 'maroon',
+    6: 'turquoise',
+    7: 'black',
+    8: 'grey'
     }
 
 # Dictionaries with column, row, mine, and display size info based on
