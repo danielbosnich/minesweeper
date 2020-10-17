@@ -1,9 +1,5 @@
 """
 Minesweeper!
-
-Created on Wed May  1 22:49:31 2019
-
-@author: danielb
 """
 
 import logging
@@ -11,8 +7,10 @@ import time
 from game import Game
 from minesweeper_displays import LevelChoiceDisplay
 
+
 def main():
-    """Main"""
+    """Opens the level choice display which allows the user to choose a level
+    and either play a game or check the leaderboard"""
     restart_game = True
     logging.basicConfig(
         format='[%(asctime)s] %(levelname)s : %(funcName)s() - %(message)s',

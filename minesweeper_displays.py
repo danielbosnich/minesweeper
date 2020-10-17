@@ -1,19 +1,18 @@
 """
-Created on Mon Nov 18 16:47:36 2019
-
-@author: danielb
+Module with the class implementations for each of the displays
 """
 
 import logging
 from tkinter import (Tk, Button, Label, Checkbutton, BooleanVar, PhotoImage,
                      Toplevel, Entry, StringVar)
-from minesweeper_dictionaries import level_info
+from minesweeper_details import level_info, display_offset
 
 
 class LevelChoiceDisplay():
     """Class for the display used to select a level and whether to play a game
     or view the leaderboard"""
     def __init__(self):
+        """Initializes a LevelChoiceDisplay object"""
         # Display and widgets
         self.root = None
         self._checkbox_play = None
@@ -31,7 +30,7 @@ class LevelChoiceDisplay():
     def _create_display_geometry(self):
         """Creates the overall display"""
         self.root = Tk()
-        self.root.title("Level Choice")
+        self.root.title('Level Choice')
         display_width = 340
         display_height = 185
         screen_width = self.root.winfo_screenwidth()
@@ -47,100 +46,103 @@ class LevelChoiceDisplay():
         """Adds the widgets to the display"""
         # Text label
         choose_label = Label(self.root,
-                             text="Choose a level",
-                             font="Helvetica 12")
+                             text='Choose a level',
+                             font='Helvetica 12')
         choose_label.place(x=90, y=10, width=160, height=40)
         # Level choice buttons
         easy_button = Button(self.root,
-                             text="Easy",
-                             bg="green",
-                             activebackground="dark green",
-                             fg="white",
-                             activeforeground="white",
-                             font="Helvetica 11",
-                             cursor="hand2")
+                             text='Easy',
+                             bg='green',
+                             activebackground='dark green',
+                             fg='white',
+                             activeforeground='white',
+                             font='Helvetica 11',
+                             cursor='hand2')
         easy_button.place(x=10, y=55, width=100, height=50)
-        easy_button.bind("<ButtonRelease-1>",
+        easy_button.bind('<ButtonRelease-1>',
                          lambda event,
-                                arg1="easy":
-                         self._set_level(event, arg1))
-        easy_button.bind("<Enter>",
-                         lambda event,
-                                arg1=easy_button,
-                                arg2="dark green":
-                         update_button_color(event, arg1, arg2))
-        easy_button.bind("<Leave>",
+                                arg1='easy':
+                         self._set_level(arg1))
+        easy_button.bind('<Enter>',
                          lambda event,
                                 arg1=easy_button,
-                                arg2="green":
-                         update_button_color(event, arg1, arg2))
+                                arg2='dark green':
+                         update_button_color(arg1, arg2))
+        easy_button.bind('<Leave>',
+                         lambda event,
+                                arg1=easy_button,
+                                arg2='green':
+                         update_button_color(arg1, arg2))
         medium_button = Button(self.root,
-                               text="Medium",
-                               bg="blue",
-                               activebackground="medium blue",
-                               fg="white",
-                               activeforeground="white",
-                               font="Helvetica 11",
-                               cursor="hand2")
+                               text='Medium',
+                               bg='blue',
+                               activebackground='medium blue',
+                               fg='white',
+                               activeforeground='white',
+                               font='Helvetica 11',
+                               cursor='hand2')
         medium_button.place(x=120, y=55, width=100, height=50)
-        medium_button.bind("<ButtonRelease-1>",
+        medium_button.bind('<ButtonRelease-1>',
                            lambda event,
-                                  arg1="medium":
-                           self._set_level(event, arg1))
-        medium_button.bind("<Enter>",
-                           lambda event,
-                                  arg1=medium_button,
-                                  arg2="medium blue":
-                           update_button_color(event, arg1, arg2))
-        medium_button.bind("<Leave>",
+                                  arg1='medium':
+                           self._set_level(arg1))
+        medium_button.bind('<Enter>',
                            lambda event,
                                   arg1=medium_button,
-                                  arg2="blue":
-                           update_button_color(event, arg1, arg2))
+                                  arg2='medium blue':
+                           update_button_color(arg1, arg2))
+        medium_button.bind('<Leave>',
+                           lambda event,
+                                  arg1=medium_button,
+                                  arg2='blue':
+                           update_button_color(arg1, arg2))
         hard_button = Button(self.root,
-                             text="Hard",
-                             bg="red",
-                             activebackground="red3",
-                             fg="white",
-                             activeforeground="white",
-                             font="Helvetica 11",
-                             cursor="hand2")
+                             text='Hard',
+                             bg='red',
+                             activebackground='red3',
+                             fg='white',
+                             activeforeground='white',
+                             font='Helvetica 11',
+                             cursor='hand2')
         hard_button.place(x=230, y=55, width=100, height=50)
-        hard_button.bind("<ButtonRelease-1>",
+        hard_button.bind('<ButtonRelease-1>',
                          lambda event,
-                                arg1="hard":
-                         self._set_level(event, arg1))
-        hard_button.bind("<Enter>",
-                         lambda event,
-                                arg1=hard_button,
-                                arg2="red3":
-                         update_button_color(event, arg1, arg2))
-        hard_button.bind("<Leave>",
+                                arg1='hard':
+                         self._set_level(arg1))
+        hard_button.bind('<Enter>',
                          lambda event,
                                 arg1=hard_button,
-                                arg2="red":
-                         update_button_color(event, arg1, arg2))
+                                arg2='red3':
+                         update_button_color(arg1, arg2))
+        hard_button.bind('<Leave>',
+                         lambda event,
+                                arg1=hard_button,
+                                arg2='red':
+                         update_button_color(arg1, arg2))
 
         # Create the checkboxes
         self._check_var_play = BooleanVar()
         self._check_var_view = BooleanVar()
         self._checkbox_play = Checkbutton(self.root,
-                                          text="Play Game",
-                                          font="Helvetica 11",
+                                          text='Play Game',
+                                          font='Helvetica 11',
                                           variable=self._check_var_play,
                                           command=self._update_view_check)
         self._checkbox_play.place(x=70, y=120, width=200, height=25)
         self._checkbox_view = Checkbutton(self.root,
-                                          text="View Leaderboard",
-                                          font="Helvetica 11",
+                                          text='View Leaderboard',
+                                          font='Helvetica 11',
                                           variable=self._check_var_view,
                                           command=self._update_play_check)
         self._checkbox_view.place(x=70, y=150, width=200, height=25)
         self._checkbox_play.select()
 
-    def _set_level(self, event, chosen_level):
-        """Sets the game level and closes the level choice display"""
-        logging.debug(f'The button event info is: {event}')
+    def _set_level(self, chosen_level):
+        """Sets the game level and closes the level choice display
+
+        Args:
+            chosen_level (str): The difficulty level chosen by the user
+        """
         self.level = chosen_level
         self.play_game = self._check_var_play.get()
         self.view_leaderboard = self._check_var_view.get()
@@ -166,6 +168,11 @@ class LevelChoiceDisplay():
 class BoardDisplay():
     """Class for the minesweeper board display"""
     def __init__(self, level):
+        """Initializes a BoardDisplay object
+
+        Args:
+            level (str): The difficulty level of the game
+        """
         # Display and widgets
         self.root = None
         self._miley_button = None
@@ -173,7 +180,6 @@ class BoardDisplay():
         self._timer_label = None
         # Variables
         self._display_width = None
-        self._display_offset = 60
         # Initialization methods
         self._create_display_geometry(level)
         self._add_widgets()
@@ -181,10 +187,10 @@ class BoardDisplay():
     def _create_display_geometry(self, level):
         """Creates the overall display"""
         self.root = Tk()
-        self.root.title("Minesweeper")
+        self.root.title('Minesweeper')
         self._display_width = level_info[level]['display_width']
         display_height = (level_info[level]['display_height'] +
-                          self._display_offset)
+                          display_offset)
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         display_x_pos = screen_width/2 - self._display_width/2
@@ -196,10 +202,10 @@ class BoardDisplay():
 
         # Load images
         # Need to define the file paths separately for tkinter
-        cool_emoji_path = "Images/cool_emoji.gif"
-        dead_emoji_path = "Images/dead_emoji.gif"
-        scared_emoji_path = "Images/scared_emoji.gif"
-        smiley_emoji_path = "Images/smiley_emoji.gif"
+        cool_emoji_path = 'Images/cool_emoji.gif'
+        dead_emoji_path = 'Images/dead_emoji.gif'
+        scared_emoji_path = 'Images/scared_emoji.gif'
+        smiley_emoji_path = 'Images/smiley_emoji.gif'
         self.root.cool_emoji = PhotoImage(file=cool_emoji_path)
         self.root.dead_emoji = PhotoImage(file=dead_emoji_path)
         self.root.scared_emoji = PhotoImage(file=scared_emoji_path)
@@ -209,31 +215,39 @@ class BoardDisplay():
         """Adds widgets to the display"""
         # Create the header label
         header_label = Label(self.root,
-                             bg="gray70",
-                             relief="raised")
-        header_label.place(x=0, y=0,
-                           height=self._display_offset,
+                             bg='gray70',
+                             relief='raised')
+        header_label.place(x=0,
+                           y=0,
+                           height=display_offset,
                            width=self._display_width)
 
         # Create the mines count label
         self._mine_count_label = Label(self.root,
-                                       bg="gray22",
-                                       fg="red")
+                                       bg='gray22',
+                                       fg='red')
         self._mine_count_label.configure(font=('stencil', 28))
-        self._mine_count_label.place(x=15, y=5, width=100, height=50)
+        self._mine_count_label.place(x=15,
+                                     y=5,
+                                     width=100,
+                                     height=50)
 
         # Create the smiley button
-        self.smiley_button = Button(self.root, bg="white", cursor="hand2")
-        self.smiley_button.place(x=self._display_width/2 - 50/2, y=5,
-                                 width=50, height=50)
+        self.smiley_button = Button(self.root, bg='white', cursor='hand2')
+        self.smiley_button.place(x=self._display_width/2 - 50/2,
+                                 y=5,
+                                 width=50,
+                                 height=50)
 
         # Create the timer label
         self._timer_label = Label(self.root,
-                                  bg="gray22",
-                                  fg="red",
-                                  font="Stencil 28")
-        self._timer_label.place(x=self._display_width - 115, y=5,
-                                width=100, height=50)
+                                  bg='gray22',
+                                  fg='red',
+                                  font='Stencil 28')
+        self._timer_label.place(x=self._display_width - 115,
+                                y=5,
+                                width=100,
+                                height=50)
 
     def update_smiley_button(self, smiley_type):
         """Updates the smiley button in the header"""
@@ -257,7 +271,16 @@ class BoardDisplay():
 
 class TimesDisplay():
     """Class for the minesweeper top times display"""
+    window_bg_color = 'gray98'
+    light_gray = 'gray90'
+    dark_gray = 'gray80'
     def __init__(self, get_input, display_height):
+        """Initializes a TimesDisplay object
+
+        Args:
+            get_input (bool): If user input is needed
+            display_height (int): Height of the window
+        """
         # Display and widgets
         self.root = None
         self.user_entry = None
@@ -277,7 +300,7 @@ class TimesDisplay():
             self.root = Toplevel()
         else:
             self.root = Tk()
-        self.root.title("Top Times")
+        self.root.title('Top Times')
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         display_x_pos = screen_width/2 - self._display_width/2
@@ -291,40 +314,48 @@ class TimesDisplay():
         """Adds widgets to the display"""
         # Create the background and header
         header_background = Label(self.root,
-                                  bg="gray98",
-                                  relief="raised")
+                                  bg=self.window_bg_color,
+                                  relief='raised')
         header_background.place(x=0, y=0, width=self._display_width, height=60)
         if self._get_input:
             footer_background = Label(self.root,
-                                      bg="gray98",
-                                      relief="raised")
+                                      bg=self.window_bg_color,
+                                      relief='raised')
             footer_background.place(x=0, y=self._display_height-60,
                                     width=self._display_width, height=60)
         rank_label = Label(self.root,
                            text='Rank',
-                           bg="gray98",
-                           fg="black",
-                           font="Helvetica 14 bold")
+                           bg=self.window_bg_color,
+                           fg='black',
+                           font='Helvetica 14 bold')
         rank_label.place(x=30, y=10, width=60, height=40)
         username_label = Label(self.root,
                                text='User',
-                               bg="gray98",
-                               fg="black",
-                               font="Helvetica 14 bold")
+                               bg=self.window_bg_color,
+                               fg='black',
+                               font='Helvetica 14 bold')
         username_label.place(x=140, y=10, width=120, height=40)
         time_label = Label(self.root,
                            text='Time',
-                           bg="gray98",
-                           fg="black",
-                           font="Helvetica 14 bold")
+                           bg=self.window_bg_color,
+                           fg='black',
+                           font='Helvetica 14 bold')
         time_label.place(x=300, y=10, width=80, height=40)
 
-    def add_entry(self, rank, time, username, user_input):
-        """Adds a time to the display"""
+    def add_entry(self, *, rank, time, username, user_input):
+        """Adds a time to the display
+
+        Keyword args:
+            rank (int): Rank of the new entry
+            time (int): Time of the new entry
+            username (str): Username for the new entry
+            user_input (bool): The entry should be created with an Entry widget
+                for the user to add their username
+        """
         color = self._determine_color(rank)
         y_pos = (rank) * 60 + 10
         # Color separation label
-        entry_label = Label(self.root, bg=color, relief="raised")
+        entry_label = Label(self.root, bg=color, relief='raised')
         entry_label.place(x=0, y=y_pos-10, width=self._display_width, height=60)
         self._add_rank(y_pos, color, rank)
         self._add_time(y_pos, color, time)
@@ -338,7 +369,7 @@ class TimesDisplay():
         entry_rank = Label(self.root,
                            text=rank,
                            bg=color,
-                           font="Helvetica 12")
+                           font='Helvetica 12')
         entry_rank.place(x=50, y=y_pos, width=20, height=40)
 
     def _add_time(self, y_pos, color, time):
@@ -346,7 +377,7 @@ class TimesDisplay():
         entry_time = Label(self.root,
                            text=time,
                            bg=color,
-                           font="Helvetica 12")
+                           font='Helvetica 12')
         entry_time.place(x=320, y=y_pos, width=40, height=40)
 
     def _add_username(self, y_pos, color, username):
@@ -354,7 +385,7 @@ class TimesDisplay():
         entry_username = Label(self.root,
                                text=username,
                                bg=color,
-                               font="Helvetica 12")
+                               font='Helvetica 12')
         entry_username.place(x=100, y=y_pos, width=200, height=40)
 
     def _create_username_entry(self, y_pos):
@@ -362,40 +393,46 @@ class TimesDisplay():
         self.input_var = StringVar()
         self.user_entry = Entry(self.root,
                                 textvariable=self.input_var,
-                                justify="center",
-                                font="Helvetica 12")
+                                justify='center',
+                                font='Helvetica 12')
         self.user_entry.place(x=100, y=y_pos, width=200, height=40)
 
     def create_enter_button(self):
         """Creates the enter button"""
         self.enter_button = Button(self.root,
-                                   text="Enter Username",
-                                   bg="gray98",
-                                   activebackground="gray98",
-                                   cursor="hand2",
-                                   font="Helvetica 14")
-        self.enter_button.place(x=100, y=self._display_height-50,
-                                width=200, height=40)
-        self.enter_button.bind("<Enter>",
+                                   text='Enter Username',
+                                   bg=self.window_bg_color,
+                                   activebackground=self.window_bg_color,
+                                   cursor='hand2',
+                                   font='Helvetica 14')
+        self.enter_button.place(x=100,
+                                y=self._display_height-50,
+                                width=200,
+                                height=40)
+        self.enter_button.bind('<Enter>',
                                lambda event,
                                       arg1=self.enter_button,
-                                      arg2="gray94":
-                               update_button_color(event, arg1, arg2))
-        self.enter_button.bind("<Leave>",
+                                      arg2='gray94':
+                               update_button_color(arg1, arg2))
+        self.enter_button.bind('<Leave>',
                                lambda event,
                                       arg1=self.enter_button,
-                                      arg2="gray98":
-                               update_button_color(event, arg1, arg2))
+                                      arg2='gray98':
+                               update_button_color(arg1, arg2))
 
     def _determine_color(self, num):
         """Returns a shade of gray for the top times display based on whether
         the passed number is odd or even"""
         if num % 2 == 0:
-            return "gray90"
-        return "gray80"
+            return self.light_gray
+        return self.dark_gray
 
 
-def update_button_color(event, button, color):
-    """Updates the passed button's color"""
-    logging.debug(f'The button event info is: {event}')
-    button.configure(bg=color, activebackground=color)
+def update_button_color(button, color):
+    """Updates the passed button's color
+
+    Args:
+        button: Tkinter button object
+        color (str): Color to set the button background
+    """
+    button.configure(background=color, activebackground=color)
