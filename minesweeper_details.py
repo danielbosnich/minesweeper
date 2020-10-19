@@ -4,7 +4,7 @@ Variables and dictionaries used for game and display details
 
 # Offset to the first tile and side length of each
 display_offset = 60
-tile_size = 50
+tile_size = 30
 
 # Dictionary with number colors based on number of adjacent mines
 number_colors = {
@@ -24,24 +24,24 @@ EASY = {
     'rows': 9,
     'columns': 9,
     'mines': 10,
-    'display_width': 450,
-    'display_height': 450,
+    'display_width': tile_size * 9,
+    'display_height': tile_size * 9,
     }
 
 MEDIUM = {
     'rows': 16,
     'columns': 16,
     'mines': 40,
-    'display_width': 800,
-    'display_height': 800,
+    'display_width': tile_size * 16,
+    'display_height': tile_size * 16,
     }
 
 HARD = {
     'rows': 16,
     'columns': 30,
     'mines': 99,
-    'display_width': 1500,
-    'display_height': 800,
+    'display_width': tile_size * 30,
+    'display_height': tile_size * 16,
     }
 
 level_info = {

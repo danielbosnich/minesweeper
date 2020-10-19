@@ -4,7 +4,7 @@ Module with the Board class
 
 import logging
 import random
-from minesweeper_details import level_info, tile_size
+from minesweeper_details import level_info
 from tile import Tile
 
 
@@ -21,7 +21,6 @@ class Board():
         self.mines = None
         self.num_mines_left = None
         self.tiles = {}
-        self._tile_size = tile_size
         self._set_board_info(level)
         self._create_tiles()
 
@@ -43,9 +42,7 @@ class Board():
         for column in range(self.columns):
             for row in range(self.rows):
                 tile_name = str(column) + ',' + str(row)
-                self.tiles[tile_name] = Tile(column=column,
-                                             row=row,
-                                             tile_size=self._tile_size)
+                self.tiles[tile_name] = Tile(column=column, row=row)
 
     def count_adjacent_mines(self, *, column, row):
         """Counts the number of adjacent tiles that have a mine

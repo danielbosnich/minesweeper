@@ -31,8 +31,8 @@ class LevelChoiceDisplay():
         """Creates the overall display"""
         self.root = Tk()
         self.root.title('Level Choice')
-        display_width = 340
-        display_height = 185
+        display_width = 300
+        display_height = 165
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         display_x_pos = screen_width/2 - display_width/2
@@ -47,18 +47,18 @@ class LevelChoiceDisplay():
         # Text label
         choose_label = Label(self.root,
                              text='Choose a level',
-                             font='Helvetica 12')
-        choose_label.place(x=90, y=10, width=160, height=40)
+                             font='Arial 14')
+        choose_label.place(x=80, y=10, width=140, height=30)
         # Level choice buttons
         easy_button = Button(self.root,
                              text='Easy',
-                             bg='green',
+                             bg='green4',
                              activebackground='dark green',
                              fg='white',
                              activeforeground='white',
-                             font='Helvetica 11',
+                             font='Arial 12',
                              cursor='hand2')
-        easy_button.place(x=10, y=55, width=100, height=50)
+        easy_button.place(x=15, y=50, width=80, height=40)
         easy_button.bind('<ButtonRelease-1>',
                          lambda event,
                                 arg1='easy':
@@ -71,7 +71,7 @@ class LevelChoiceDisplay():
         easy_button.bind('<Leave>',
                          lambda event,
                                 arg1=easy_button,
-                                arg2='green':
+                                arg2='green4':
                          update_button_color(arg1, arg2))
         medium_button = Button(self.root,
                                text='Medium',
@@ -79,9 +79,9 @@ class LevelChoiceDisplay():
                                activebackground='medium blue',
                                fg='white',
                                activeforeground='white',
-                               font='Helvetica 11',
+                               font='Arial 12',
                                cursor='hand2')
-        medium_button.place(x=120, y=55, width=100, height=50)
+        medium_button.place(x=110, y=50, width=80, height=40)
         medium_button.bind('<ButtonRelease-1>',
                            lambda event,
                                   arg1='medium':
@@ -102,9 +102,9 @@ class LevelChoiceDisplay():
                              activebackground='red3',
                              fg='white',
                              activeforeground='white',
-                             font='Helvetica 11',
+                             font='Arial 12',
                              cursor='hand2')
-        hard_button.place(x=230, y=55, width=100, height=50)
+        hard_button.place(x=205, y=50, width=80, height=40)
         hard_button.bind('<ButtonRelease-1>',
                          lambda event,
                                 arg1='hard':
@@ -125,16 +125,16 @@ class LevelChoiceDisplay():
         self._check_var_view = BooleanVar()
         self._checkbox_play = Checkbutton(self.root,
                                           text='Play Game',
-                                          font='Helvetica 11',
+                                          font='Arial 11',
                                           variable=self._check_var_play,
                                           command=self._update_view_check)
-        self._checkbox_play.place(x=70, y=120, width=200, height=25)
+        self._checkbox_play.place(x=50, y=100, width=200, height=25)
         self._checkbox_view = Checkbutton(self.root,
                                           text='View Leaderboard',
-                                          font='Helvetica 11',
+                                          font='Arial 11',
                                           variable=self._check_var_view,
                                           command=self._update_play_check)
-        self._checkbox_view.place(x=70, y=150, width=200, height=25)
+        self._checkbox_view.place(x=50, y=130, width=200, height=25)
         self._checkbox_play.select()
 
     def _set_level(self, chosen_level):
