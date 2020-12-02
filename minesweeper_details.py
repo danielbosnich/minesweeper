@@ -3,7 +3,7 @@ Variables and dictionaries used for game and display details
 """
 
 # Offset to the first tile and side length of each
-display_offset = 60
+display_offset = 50
 tile_size = 30
 
 # Dictionary with number colors based on number of adjacent mines

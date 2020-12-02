@@ -166,8 +166,8 @@ class Game():
         conn = sqlite3.connect('minesweeper.db')
         cur = conn.cursor()
 
-        sql_statement = ("SELECT game_run_time, username FROM fastest_times "
-                         "WHERE level=?")
+        sql_statement = ('SELECT game_run_time, username FROM fastest_times '
+                         'WHERE level=?')
         cur.execute(sql_statement, (self._game_level,))
         times_list = cur.fetchall()
 
@@ -285,20 +285,14 @@ class Game():
         their username. If get_input is set to False then this method
         will only display the top times
 
-        Keyword args:
+        Args:
             get_input (bool): If user input is needed
             sorted_times_list (list): List of tuples where the first value
                 is the time and the second value is the username
             rank (int): The rank of the new time. Defaults to -1
         """
-        times_display_height = len(sorted_times_list) * 60 + 60
-        if get_input:
-            times_display_height = times_display_height + 60
-            if len(sorted_times_list) < 10:
-                times_display_height = times_display_height + 60
-        logging.debug(f'Creating a display with height: '
-                      f'{times_display_height}')
-        self._times_display = TimesDisplay(get_input, times_display_height)
+        self._times_display = TimesDisplay(get_input=get_input,
+                                           num_entries=len(sorted_times_list))
 
         # Add the times and usernames
         entry_num = 1

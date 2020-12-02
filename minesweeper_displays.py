@@ -30,6 +30,7 @@ class LevelChoiceDisplay():
     def _create_display_geometry(self):
         """Creates the overall display"""
         self.root = Tk()
+        self.root.resizable(False, False)
         self.root.title('Level Choice')
         display_width = 300
         display_height = 165
@@ -52,17 +53,14 @@ class LevelChoiceDisplay():
         # Level choice buttons
         easy_button = Button(self.root,
                              text='Easy',
-                             bg='green4',
+                             background='green4',
                              activebackground='dark green',
-                             fg='white',
+                             foreground='white',
                              activeforeground='white',
                              font='Arial 12',
-                             cursor='hand2')
+                             cursor='hand2',
+                             command=lambda: self._set_level('easy'))
         easy_button.place(x=15, y=50, width=80, height=40)
-        easy_button.bind('<ButtonRelease-1>',
-                         lambda event,
-                                arg1='easy':
-                         self._set_level(arg1))
         easy_button.bind('<Enter>',
                          lambda event,
                                 arg1=easy_button,
@@ -75,17 +73,14 @@ class LevelChoiceDisplay():
                          update_button_color(arg1, arg2))
         medium_button = Button(self.root,
                                text='Medium',
-                               bg='blue',
+                               background='blue',
                                activebackground='medium blue',
-                               fg='white',
+                               foreground='white',
                                activeforeground='white',
                                font='Arial 12',
-                               cursor='hand2')
+                               cursor='hand2',
+                               command=lambda: self._set_level('medium'))
         medium_button.place(x=110, y=50, width=80, height=40)
-        medium_button.bind('<ButtonRelease-1>',
-                           lambda event,
-                                  arg1='medium':
-                           self._set_level(arg1))
         medium_button.bind('<Enter>',
                            lambda event,
                                   arg1=medium_button,
@@ -98,17 +93,14 @@ class LevelChoiceDisplay():
                            update_button_color(arg1, arg2))
         hard_button = Button(self.root,
                              text='Hard',
-                             bg='red',
+                             background='red',
                              activebackground='red3',
-                             fg='white',
+                             foreground='white',
                              activeforeground='white',
                              font='Arial 12',
-                             cursor='hand2')
+                             cursor='hand2',
+                             command=lambda: self._set_level('hard'))
         hard_button.place(x=205, y=50, width=80, height=40)
-        hard_button.bind('<ButtonRelease-1>',
-                         lambda event,
-                                arg1='hard':
-                         self._set_level(arg1))
         hard_button.bind('<Enter>',
                          lambda event,
                                 arg1=hard_button,
@@ -187,10 +179,10 @@ class BoardDisplay():
     def _create_display_geometry(self, level):
         """Creates the overall display"""
         self.root = Tk()
+        self.root.resizable(False, False)
         self.root.title('Minesweeper')
         self._display_width = level_info[level]['display_width']
-        display_height = (level_info[level]['display_height'] +
-                          display_offset)
+        display_height = (level_info[level]['display_height'] + display_offset)
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         display_x_pos = screen_width/2 - self._display_width/2
@@ -215,7 +207,7 @@ class BoardDisplay():
         """Adds widgets to the display"""
         # Create the header label
         header_label = Label(self.root,
-                             bg='gray70',
+                             background='gray70',
                              relief='raised')
         header_label.place(x=0,
                            y=0,
@@ -224,33 +216,39 @@ class BoardDisplay():
 
         # Create the mines count label
         self._mine_count_label = Label(self.root,
-                                       bg='gray22',
-                                       fg='red')
+                                       background='gray22',
+                                       foreground='red')
         self._mine_count_label.configure(font=('stencil', 28))
-        self._mine_count_label.place(x=15,
+        self._mine_count_label.place(x=10,
                                      y=5,
-                                     width=100,
-                                     height=50)
+                                     width=90,
+                                     height=40)
 
         # Create the smiley button
-        self.smiley_button = Button(self.root, bg='white', cursor='hand2')
-        self.smiley_button.place(x=self._display_width/2 - 50/2,
+        self.smiley_button = Button(self.root,
+                                    background='white',
+                                    cursor='hand2')
+        self.smiley_button.place(x=self._display_width/2 - 40/2,
                                  y=5,
-                                 width=50,
-                                 height=50)
+                                 width=40,
+                                 height=40)
 
         # Create the timer label
         self._timer_label = Label(self.root,
-                                  bg='gray22',
-                                  fg='red',
+                                  background='gray22',
+                                  foreground='red',
                                   font='Stencil 28')
-        self._timer_label.place(x=self._display_width - 115,
+        self._timer_label.place(x=self._display_width - 100,
                                 y=5,
-                                width=100,
-                                height=50)
+                                width=90,
+                                height=40)
 
     def update_smiley_button(self, smiley_type):
-        """Updates the smiley button in the header"""
+        """Updates the smiley button in the header
+
+        Args:
+            smiley_type (str): Type of smiley to update the button to
+        """
         if smiley_type == 'smiley':
             self.smiley_button.configure(image=self.root.smiley_emoji)
         elif smiley_type == 'scared':
@@ -261,25 +259,37 @@ class BoardDisplay():
             self.smiley_button.configure(image=self.root.dead_emoji)
 
     def update_timer(self, time):
-        """Updates the timer text"""
+        """Updates the timer text
+
+        Args:
+            time (int): Time to update the label to
+        """
         self._timer_label.configure(text=time)
 
     def update_mine_count(self, mine_count):
-        """Updates the mine count label text"""
+        """Updates the mine count label text
+
+        Args:
+            mine_count (int): Mine count to update the label to
+        """
         self._mine_count_label.configure(text=mine_count)
 
 
 class TimesDisplay():
     """Class for the minesweeper top times display"""
+    header_height = 50
+    footer_height = 50
+    entry_height = 40
     window_bg_color = 'gray98'
     light_gray = 'gray90'
     dark_gray = 'gray80'
-    def __init__(self, get_input, display_height):
+
+    def __init__(self, *, get_input, num_entries):
         """Initializes a TimesDisplay object
 
-        Args:
+        Keyword args:
             get_input (bool): If user input is needed
-            display_height (int): Height of the window
+            num_entries (int): Number of entries for the list
         """
         # Display and widgets
         self.root = None
@@ -288,11 +298,26 @@ class TimesDisplay():
         # Variables
         self._get_input = get_input
         self._display_width = 400
-        self._display_height = display_height
+        self._display_height = None
         self.input_var = None
         # Initialization methods
+        self._determine_height(num_entries)
         self._create_display_geometry()
         self._add_widgets()
+
+    def _determine_height(self, num_entries):
+        """Determines the height of the display based on the number of entries
+        and if user input is required
+
+        Args:
+            num_entries (int): Number of entries for the list
+        """
+        self._display_height = (num_entries * self.entry_height +
+                                self.header_height)
+        if self._get_input:
+            self._display_height += self.footer_height
+            if num_entries < 10:
+                self._display_height += self.entry_height
 
     def _create_display_geometry(self):
         """Creates the overall display"""
@@ -300,6 +325,7 @@ class TimesDisplay():
             self.root = Toplevel()
         else:
             self.root = Tk()
+        self.root.resizable(False, False)
         self.root.title('Top Times')
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
@@ -314,33 +340,37 @@ class TimesDisplay():
         """Adds widgets to the display"""
         # Create the background and header
         header_background = Label(self.root,
-                                  bg=self.window_bg_color,
+                                  background=self.window_bg_color,
                                   relief='raised')
-        header_background.place(x=0, y=0, width=self._display_width, height=60)
+        header_background.place(x=0, y=0,
+                                width=self._display_width,
+                                height=self.header_height)
         if self._get_input:
             footer_background = Label(self.root,
-                                      bg=self.window_bg_color,
+                                      background=self.window_bg_color,
                                       relief='raised')
-            footer_background.place(x=0, y=self._display_height-60,
-                                    width=self._display_width, height=60)
+            footer_background.place(x=0,
+                                    y=self._display_height - self.footer_height,
+                                    width=self._display_width,
+                                    height=self.footer_height)
         rank_label = Label(self.root,
                            text='Rank',
-                           bg=self.window_bg_color,
-                           fg='black',
-                           font='Helvetica 14 bold')
-        rank_label.place(x=30, y=10, width=60, height=40)
+                           background=self.window_bg_color,
+                           foreground='black',
+                           font='Arial 14 bold')
+        rank_label.place(x=30, y=5, width=60, height=40)
         username_label = Label(self.root,
                                text='User',
-                               bg=self.window_bg_color,
-                               fg='black',
-                               font='Helvetica 14 bold')
-        username_label.place(x=140, y=10, width=120, height=40)
+                               background=self.window_bg_color,
+                               foreground='black',
+                               font='Arial 14 bold')
+        username_label.place(x=140, y=5, width=120, height=40)
         time_label = Label(self.root,
                            text='Time',
-                           bg=self.window_bg_color,
-                           fg='black',
-                           font='Helvetica 14 bold')
-        time_label.place(x=300, y=10, width=80, height=40)
+                           background=self.window_bg_color,
+                           foreground='black',
+                           font='Arial 14 bold')
+        time_label.place(x=300, y=5, width=80, height=40)
 
     def add_entry(self, *, rank, time, username, user_input):
         """Adds a time to the display
@@ -353,10 +383,13 @@ class TimesDisplay():
                 for the user to add their username
         """
         color = self._determine_color(rank)
-        y_pos = (rank) * 60 + 10
+        y_pos = (rank - 1) * self.entry_height + self.header_height
         # Color separation label
-        entry_label = Label(self.root, bg=color, relief='raised')
-        entry_label.place(x=0, y=y_pos-10, width=self._display_width, height=60)
+        entry_label = Label(self.root, background=color, relief='raised')
+        entry_label.place(x=0, y=y_pos,
+                          width=self._display_width,
+                          height=self.entry_height)
+        y_pos += 5  # Add 5 so that the entry label's edges are clean
         self._add_rank(y_pos, color, rank)
         self._add_time(y_pos, color, time)
         if user_input:
@@ -365,50 +398,72 @@ class TimesDisplay():
             self._add_username(y_pos, color, username)
 
     def _add_rank(self, y_pos, color, rank):
-        """Adds the rank number"""
+        """Adds the rank number
+
+        Args:
+            y_pos (int): Y position for the rank label
+            color (str): Color of the label
+            rank (int): Rank of the entry
+        """
         entry_rank = Label(self.root,
                            text=rank,
-                           bg=color,
-                           font='Helvetica 12')
-        entry_rank.place(x=50, y=y_pos, width=20, height=40)
+                           background=color,
+                           font='Arial 12')
+        entry_rank.place(x=50, y=y_pos, width=20, height=30)
 
     def _add_time(self, y_pos, color, time):
-        """Adds the time"""
+        """Adds the time
+
+        Args:
+            y_pos (int): Y position for the time label
+            color (str): Color of the label
+            time (int): Time for the entry
+        """
         entry_time = Label(self.root,
                            text=time,
-                           bg=color,
-                           font='Helvetica 12')
-        entry_time.place(x=320, y=y_pos, width=40, height=40)
+                           background=color,
+                           font='Arial 12')
+        entry_time.place(x=320, y=y_pos, width=40, height=30)
 
     def _add_username(self, y_pos, color, username):
-        """Adds the username"""
+        """Adds the username
+
+        Args:
+            y_pos (int): Y position for the username label
+            color (str): Color of the label
+            username (str): Username for the label
+        """
         entry_username = Label(self.root,
                                text=username,
-                               bg=color,
-                               font='Helvetica 12')
-        entry_username.place(x=100, y=y_pos, width=200, height=40)
+                               background=color,
+                               font='Arial 12')
+        entry_username.place(x=100, y=y_pos, width=200, height=30)
 
     def _create_username_entry(self, y_pos):
-        """Creates the username entry widget"""
+        """Creates the username entry widget
+
+        Args:
+            y_pos (int): Y position for the entry widget
+        """
         self.input_var = StringVar()
         self.user_entry = Entry(self.root,
                                 textvariable=self.input_var,
                                 justify='center',
-                                font='Helvetica 12')
-        self.user_entry.place(x=100, y=y_pos, width=200, height=40)
+                                font='Arial 12')
+        self.user_entry.place(x=100, y=y_pos, width=200, height=30)
 
     def create_enter_button(self):
         """Creates the enter button"""
         self.enter_button = Button(self.root,
                                    text='Enter Username',
-                                   bg=self.window_bg_color,
+                                   background=self.window_bg_color,
                                    activebackground=self.window_bg_color,
                                    cursor='hand2',
-                                   font='Helvetica 14')
+                                   font='Arial 14')
         self.enter_button.place(x=100,
-                                y=self._display_height-50,
+                                y=self._display_height-43,
                                 width=200,
-                                height=40)
+                                height=36)
         self.enter_button.bind('<Enter>',
                                lambda event,
                                       arg1=self.enter_button,
@@ -422,7 +477,13 @@ class TimesDisplay():
 
     def _determine_color(self, num):
         """Returns a shade of gray for the top times display based on whether
-        the passed number is odd or even"""
+        the passed number is odd or even
+
+        Args:
+            num (int): Number to check
+        Returns:
+            (str): The correct shade of gray
+        """
         if num % 2 == 0:
             return self.light_gray
         return self.dark_gray
