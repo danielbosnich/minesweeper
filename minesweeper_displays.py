@@ -3,9 +3,16 @@ Module with the class implementations for each of the displays
 """
 
 import logging
+import random
 from tkinter import (Tk, Button, Label, Checkbutton, BooleanVar, PhotoImage,
                      Toplevel, Entry, StringVar)
 from minesweeper_details import level_info, display_offset
+
+# Randomly chooses which bob-omb icon should be used for the displays
+if random.choice([True, False]):
+    ICON_PATH = 'images/bob-omb.ico'
+else:
+    ICON_PATH = 'images/bob-omb_red.ico'
 
 
 class LevelChoiceDisplay():
@@ -32,6 +39,7 @@ class LevelChoiceDisplay():
         self.root = Tk()
         self.root.resizable(False, False)
         self.root.title('Level Choice')
+        self.root.iconbitmap(ICON_PATH)
         display_width = 300
         display_height = 165
         screen_width = self.root.winfo_screenwidth()
@@ -181,6 +189,7 @@ class BoardDisplay():
         self.root = Tk()
         self.root.resizable(False, False)
         self.root.title('Minesweeper')
+        self.root.iconbitmap(ICON_PATH)
         self._display_width = level_info[level]['display_width']
         display_height = (level_info[level]['display_height'] + display_offset)
         screen_width = self.root.winfo_screenwidth()
@@ -327,6 +336,7 @@ class TimesDisplay():
             self.root = Tk()
         self.root.resizable(False, False)
         self.root.title('Top Times')
+        self.root.iconbitmap(ICON_PATH)
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         display_x_pos = screen_width/2 - self._display_width/2
