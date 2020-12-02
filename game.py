@@ -54,10 +54,10 @@ class Game():
 
         # Load images
         # Need to define the file paths separately for tkinter
-        exploded_mine_path = 'Images/exploded_mine.gif'
-        flag_path = 'Images/blue_flag.gif'
-        mine_path = 'Images/mine.gif'
-        wrong_mine_path = 'Images/wrong_mine.gif'
+        exploded_mine_path = 'images/exploded_mine.gif'
+        flag_path = 'images/blue_flag.gif'
+        mine_path = 'images/mine.gif'
+        wrong_mine_path = 'images/wrong_mine.gif'
         self._photo_exploded_mine = PhotoImage(file=exploded_mine_path)
         self._photo_flag = PhotoImage(file=flag_path)
         self._photo_mine = PhotoImage(file=mine_path)

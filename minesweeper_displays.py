@@ -203,10 +203,10 @@ class BoardDisplay():
 
         # Load images
         # Need to define the file paths separately for tkinter
-        cool_emoji_path = 'Images/cool_emoji.gif'
-        dead_emoji_path = 'Images/dead_emoji.gif'
-        scared_emoji_path = 'Images/scared_emoji.gif'
-        smiley_emoji_path = 'Images/smiley_emoji.gif'
+        cool_emoji_path = 'images/cool_emoji.gif'
+        dead_emoji_path = 'images/dead_emoji.gif'
+        scared_emoji_path = 'images/scared_emoji.gif'
+        smiley_emoji_path = 'images/smiley_emoji.gif'
         self.root.cool_emoji = PhotoImage(file=cool_emoji_path)
         self.root.dead_emoji = PhotoImage(file=dead_emoji_path)
         self.root.scared_emoji = PhotoImage(file=scared_emoji_path)
