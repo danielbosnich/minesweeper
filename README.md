@@ -1,5 +1,7 @@
 # minesweeper
 
+[![Build Status](https://travis-ci.com/danielbosnich/minesweeper.svg?branch=master)](https://travis-ci.com/danielbosnich/minesweeper)
+
 This was one of my first larger personal programming projects that I used to improve my Python knowledge.  While
 I've made some updates since its initial completion, I've actually tried to keep the main logic and layout the
 same.  The goal of this project was not to have best minesweeper program around, but rather to have fun and learn a 
