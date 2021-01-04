@@ -10,3 +10,5 @@ install:
 script:
   - python -m unittest
   - pylint board.py game.py minesweeper.py minesweeper_details.py minesweeper_displays.py tile.py
+  - coverage run board.py game.py minesweeper.py minesweeper_details.py minesweeper_display.py tile.py
+  - coverage erase
