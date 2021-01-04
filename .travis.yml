@@ -9,4 +9,4 @@ install:
   - pip install coverage
 script:
   - python -m unittest
-  - pylint minesweeper.py
+  - pylint board.py game.py minesweeper.py minesweeper_details.py minesweeper_displays.py tile.py
