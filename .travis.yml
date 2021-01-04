@@ -5,6 +5,8 @@ python:
   - '3.8'
   - '3.9'
 install:
-  - pip install -r requirements.txt
+  - pip install pylint
+  - pip install coverage
 script:
   - python -m unittest
+  - pylint minesweeper.py
