@@ -3,8 +3,8 @@ Variables and dictionaries used for game and display details
 """
 
 # Offset to the first tile and side length of each
-display_offset = 50
-tile_size = 30
+display_offset = 50  # pylint: disable=invalid-name
+tile_size = 30  # pylint: disable=invalid-name
 
 # Dictionary with number colors based on number of adjacent mines
 number_colors = {
@@ -17,7 +17,7 @@ number_colors = {
     6: 'turquoise',
     7: 'black',
     8: 'grey'
-    }
+}
 
 # Dictionaries with column, row, mine, and display size info based on the level
 EASY = {
@@ -26,7 +26,7 @@ EASY = {
     'mines': 10,
     'display_width': tile_size * 9,
     'display_height': tile_size * 9,
-    }
+}
 
 MEDIUM = {
     'rows': 16,
@@ -34,7 +34,7 @@ MEDIUM = {
     'mines': 40,
     'display_width': tile_size * 16,
     'display_height': tile_size * 16,
-    }
+}
 
 HARD = {
     'rows': 16,
@@ -42,10 +42,10 @@ HARD = {
     'mines': 99,
     'display_width': tile_size * 30,
     'display_height': tile_size * 16,
-    }
+}
 
 level_info = {
     'easy': EASY,
     'medium': MEDIUM,
     'hard': HARD
-    }
+}
