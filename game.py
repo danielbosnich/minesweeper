@@ -183,7 +183,7 @@ class Game():
         times for that level.  If so, a window will pop up showing the fastest
         times and asking the user to enter a username
 
-        Keyword args:
+        Args:
             conn: sqlite3 connection object
             cur: sqlite3 cursor object
         """
@@ -238,7 +238,7 @@ class Game():
         """Updates the fastest times table by adding an entry and by
         optionally deleting the slowest entry
 
-        Keyword args:
+        Args:
             conn: sqlite3 connection object
             cur: sqlite3 cursor object
             rank (int): Rank of the new entry
@@ -358,7 +358,7 @@ class Game():
         """Updates the smiley face button, the mine number label, and the
         timer label
 
-        Keyword args:
+        Args:
             smiley_type (str): Type of emoji for the smiley button
             display_time (int): Number of seconds to display. Defaults to 0
             num_mines (int): Number of mines left to display. Defaults to None
@@ -604,7 +604,7 @@ class Game():
     def _select_tile(self, *, tile, recursive_check):
         """Check a tile and see if it was hiding a mine
 
-        Keyword args:
+        Args:
             tile: Tile that was selected
             recursive_check (bool): If a recursive check should be run
         """

@@ -47,9 +47,11 @@ class Board():
     def count_adjacent_mines(self, *, column, row):
         """Counts the number of adjacent tiles that have a mine
 
-        Keyword args:
+        Args:
             column (int): Column number where the tile to check is located
             row (int): Row number where the tile to check is located
+        Returns:
+            int: Number of adjacent tiles with a mine
         """
         num_adjacent_mines = 0
         for i in range(-1, 2):
@@ -116,6 +118,8 @@ class Board():
 
         Args:
             tile (Tile): Tile to check for adjacent flags
+        Returns:
+            int: Number of adjacent tiles with a flag
         """
         num_adjacent_flags = 0
         for i in range(-1, 2):
@@ -138,7 +142,11 @@ class Board():
         return num_adjacent_flags
 
     def check_if_all_tiles_cleared(self):
-        """Checks if all the non-mine tiles have been cleared"""
+        """Checks if all the tiles without a mine have been cleared
+        
+        Returns:
+            bool: If all the tiles without a mine have been cleared
+        """
         all_cleared = True
         for tile in self.tiles.values():
             if not tile.is_mine:

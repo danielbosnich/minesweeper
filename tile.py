@@ -11,7 +11,7 @@ class Tile():
     def __init__(self, *, column, row):
         """Initializes a Tile object
 
-        Keyword args:
+        Args:
             column (int): Column number where the tile is located
             row (int): Row number where the tile is located
         """
@@ -57,7 +57,7 @@ class Tile():
     def set_button_color(self, *, bg_color, fg_color=None):
         """Sets the button color
 
-        Keyword args:
+        Args:
             bg_color (str): Button background color
             fg_color (str): Button foreground color. Defaults to None
         """

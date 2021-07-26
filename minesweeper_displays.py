@@ -296,7 +296,7 @@ class TimesDisplay():
     def __init__(self, *, get_input, num_entries):
         """Initializes a TimesDisplay object
 
-        Keyword args:
+        Args:
             get_input (bool): If user input is needed
             num_entries (int): Number of entries for the list
         """
@@ -385,7 +385,7 @@ class TimesDisplay():
     def add_entry(self, *, rank, time, username, user_input):
         """Adds a time to the display
 
-        Keyword args:
+        Args:
             rank (int): Rank of the new entry
             time (int): Time of the new entry
             username (str): Username for the new entry
@@ -492,7 +492,7 @@ class TimesDisplay():
         Args:
             num (int): Number to check
         Returns:
-            (str): The correct shade of gray
+            str: The correct shade of gray
         """
         if num % 2 == 0:
             return self.light_gray
