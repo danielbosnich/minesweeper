@@ -143,7 +143,7 @@ class Board():
 
     def check_if_all_tiles_cleared(self):
         """Checks if all the tiles without a mine have been cleared
-        
+
         Returns:
             bool: If all the tiles without a mine have been cleared
         """
