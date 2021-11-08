@@ -46,10 +46,8 @@ class LevelChoiceDisplay():
         screen_height = self.root.winfo_screenheight()
         display_x_pos = screen_width/2 - display_width/2
         display_y_pos = screen_height*0.45 - display_height/2
-        self.root.geometry('%dx%d+%d+%d' % (display_width,
-                                            display_height,
-                                            display_x_pos,
-                                            display_y_pos))
+        self.root.geometry(f'{display_width}x{display_height}'
+                           f'+{display_x_pos}+{display_y_pos}')
 
     def _add_widgets(self):
         """Adds the widgets to the display"""
@@ -196,10 +194,8 @@ class BoardDisplay():
         screen_height = self.root.winfo_screenheight()
         display_x_pos = screen_width/2 - self._display_width/2
         display_y_pos = screen_height*0.45 - display_height/2
-        self.root.geometry('%dx%d+%d+%d' % (self._display_width,
-                                            display_height,
-                                            display_x_pos,
-                                            display_y_pos))
+        self.root.geometry(f'{self._display_width}x{display_height}'
+                           f'+{display_x_pos}+{display_y_pos}')
 
         # Load images
         # Need to define the file paths separately for tkinter
@@ -341,10 +337,8 @@ class TimesDisplay():
         screen_height = self.root.winfo_screenheight()
         display_x_pos = screen_width/2 - self._display_width/2
         display_y_pos = screen_height*0.45 - self._display_height/2
-        self.root.geometry('%dx%d+%d+%d' % (self._display_width,
-                                            self._display_height,
-                                            display_x_pos,
-                                            display_y_pos))
+        self.root.geometry(f'{self._display_width}x{self._display_height}'
+                           f'+{display_x_pos}+{display_y_pos}')
 
     def _add_widgets(self):
         """Adds widgets to the display"""
