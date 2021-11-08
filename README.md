@@ -18,15 +18,15 @@ Simply run the minesweeper file:
 The first window that pops up asks the user to choose a level and whether they'd like to play a game or view the
 leaderboard
 
-![Screenshot](https://github.com/danielbosnich/minesweeper/blob/master/images/level_choice.PNG)
+![Screenshot](https://github.com/danielbosnich/minesweeper/blob/main/images/level_choice.PNG)
 
 
 Here's a screenshot from a completed game at the medium level
 
-![Screenshot](https://github.com/danielbosnich/minesweeper/blob/master/images/completed_game.PNG)
+![Screenshot](https://github.com/danielbosnich/minesweeper/blob/main/images/completed_game.PNG)
 
 
 If the completed time is one of the 10 fastest (or if the level hasn't been completed 10 times) then the user
 will be asked to add their username
 
-![Screenshot](https://github.com/danielbosnich/minesweeper/blob/master/images/username_entry.PNG)
+![Screenshot](https://github.com/danielbosnich/minesweeper/blob/main/images/username_entry.PNG)
