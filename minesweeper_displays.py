@@ -189,7 +189,7 @@ class BoardDisplay():
         self.root.title('Minesweeper')
         self.root.iconbitmap(ICON_PATH)
         self._display_width = LEVEL_INFO[level]['display_width']
-        display_height = (LEVEL_INFO[level]['display_height'] + DISPLAY_OFFSET)
+        display_height = LEVEL_INFO[level]['display_height'] + DISPLAY_OFFSET
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         display_x_pos = screen_width/2 - self._display_width/2
