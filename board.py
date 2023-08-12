@@ -4,7 +4,7 @@ Module with the Board class
 
 import logging
 import random
-from minesweeper_details import level_info
+from minesweeper_details import LEVEL_INFO
 from tile import Tile
 
 
@@ -30,10 +30,10 @@ class Board():
         Args:
             level (str): The difficulty level of the game
         """
-        self.rows = level_info[level]['rows']
-        self.columns = level_info[level]['columns']
-        self.mines = level_info[level]['mines']
-        self.num_mines_left = level_info[level]['mines']
+        self.rows = LEVEL_INFO[level]['rows']
+        self.columns = LEVEL_INFO[level]['columns']
+        self.mines = LEVEL_INFO[level]['mines']
+        self.num_mines_left = LEVEL_INFO[level]['mines']
         logging.debug(f'Setting up the board with {self.columns} columns, '
                       f'{self.rows} rows, and {self.mines} mines')
 

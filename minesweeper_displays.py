@@ -6,7 +6,7 @@ import logging
 import random
 from tkinter import (Tk, Button, Label, Checkbutton, BooleanVar, PhotoImage,
                      Toplevel, Entry, StringVar)
-from minesweeper_details import level_info, display_offset
+from minesweeper_details import LEVEL_INFO, DISPLAY_OFFSET
 
 # Randomly chooses which bob-omb icon should be used for the displays
 if random.choice([True, False]):
@@ -188,8 +188,8 @@ class BoardDisplay():
         self.root.resizable(False, False)
         self.root.title('Minesweeper')
         self.root.iconbitmap(ICON_PATH)
-        self._display_width = level_info[level]['display_width']
-        display_height = (level_info[level]['display_height'] + display_offset)
+        self._display_width = LEVEL_INFO[level]['display_width']
+        display_height = (LEVEL_INFO[level]['display_height'] + DISPLAY_OFFSET)
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         display_x_pos = screen_width/2 - self._display_width/2
@@ -216,7 +216,7 @@ class BoardDisplay():
                              relief='raised')
         header_label.place(x=0,
                            y=0,
-                           height=display_offset,
+                           height=DISPLAY_OFFSET,
                            width=self._display_width)
 
         # Create the mines count label

@@ -2,12 +2,12 @@
 Variables and dictionaries used for game and display details
 """
 
-# Offset to the first tile and side length of each
-display_offset = 50  # pylint: disable=invalid-name
-tile_size = 30  # pylint: disable=invalid-name
+# Offset to the first tile and side length of each tile
+DISPLAY_OFFSET = 50
+TILE_SIZE = 30
 
 # Dictionary with number colors based on number of adjacent mines
-number_colors = {
+NUMBER_COLORS = {
     None: 'pink',  # Should never be shown!
     1: 'blue',
     2: 'green',
@@ -24,27 +24,27 @@ EASY = {
     'rows': 9,
     'columns': 9,
     'mines': 10,
-    'display_width': tile_size * 9,
-    'display_height': tile_size * 9,
+    'display_width': TILE_SIZE * 9,
+    'display_height': TILE_SIZE * 9,
 }
 
 MEDIUM = {
     'rows': 16,
     'columns': 16,
     'mines': 40,
-    'display_width': tile_size * 16,
-    'display_height': tile_size * 16,
+    'display_width': TILE_SIZE * 16,
+    'display_height': TILE_SIZE * 16,
 }
 
 HARD = {
     'rows': 16,
     'columns': 30,
     'mines': 99,
-    'display_width': tile_size * 30,
-    'display_height': tile_size * 16,
+    'display_width': TILE_SIZE * 30,
+    'display_height': TILE_SIZE * 16,
 }
 
-level_info = {
+LEVEL_INFO = {
     'easy': EASY,
     'medium': MEDIUM,
     'hard': HARD

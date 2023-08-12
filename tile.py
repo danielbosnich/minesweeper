@@ -3,7 +3,7 @@ Module with the Tile class
 """
 
 from tkinter import Button, Label
-from minesweeper_details import display_offset, tile_size
+from minesweeper_details import DISPLAY_OFFSET, TILE_SIZE
 
 
 class Tile():
@@ -24,8 +24,8 @@ class Tile():
         self.position = {'x': None, 'y': None}
         self.button = None
         self.button_type = None
-        self.position['x'] = self.column * tile_size
-        self.position['y'] = self.row * tile_size + display_offset
+        self.position['x'] = self.column * TILE_SIZE
+        self.position['y'] = self.row * TILE_SIZE + DISPLAY_OFFSET
 
     def create_button(self, display):
         """Creates the button
@@ -36,8 +36,8 @@ class Tile():
         self.button = Button(display, relief='raised')
         self.button.place(x=self.position['x'],
                           y=self.position['y'],
-                          height=tile_size,
-                          width=tile_size)
+                          height=TILE_SIZE,
+                          width=TILE_SIZE)
 
     def create_label(self, display):
         """Creates the label. Label was chosen here instead of creating a
@@ -51,8 +51,8 @@ class Tile():
         self.button = Label(display, relief='raised')
         self.button.place(x=self.position['x'],
                           y=self.position['y'],
-                          height=tile_size,
-                          width=tile_size)
+                          height=TILE_SIZE,
+                          width=TILE_SIZE)
 
     def set_button_color(self, *, bg_color, fg_color=None):
         """Sets the button color

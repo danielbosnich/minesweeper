@@ -9,7 +9,7 @@ import time
 from datetime import datetime, timezone
 from tkinter import PhotoImage
 from board import Board
-from minesweeper_details import number_colors
+from minesweeper_details import NUMBER_COLORS
 from minesweeper_displays import BoardDisplay, TimesDisplay
 
 
@@ -486,7 +486,7 @@ class Game():
             tile.button.configure(text=tile.num_adjacent_mines,
                                   font=('helvetica', 14))
             tile.set_button_color(bg_color='gray95',
-                                  fg_color=number_colors[tile.num_adjacent_mines])
+                                  fg_color=NUMBER_COLORS[tile.num_adjacent_mines])
             tile.button.bind('<ButtonRelease-1>',
                              lambda event,
                                     arg1=tile,
@@ -691,7 +691,7 @@ class Game():
                 tile.button.configure(text=tile.num_adjacent_mines,
                                       font=('helvetica', 14))
                 tile.set_button_color(bg_color='gray95',
-                                      fg_color=number_colors[tile.num_adjacent_mines])
+                                      fg_color=NUMBER_COLORS[tile.num_adjacent_mines])
                 if tile.is_flag_set:
                     tile.button.configure(image=self._photo_wrong_mine)
 
