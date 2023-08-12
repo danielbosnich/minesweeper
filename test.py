@@ -2,6 +2,8 @@
 Basic minesweeper unit tests
 """
 
+# pylint: disable=protected-access
+
 from unittest import main, TestCase
 from board import Board
 from game import Game
