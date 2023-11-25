@@ -4,15 +4,23 @@ Module with the class implementations for each of the displays
 
 import logging
 import random
+from sys import platform
 from tkinter import (Tk, Button, Label, Checkbutton, BooleanVar, PhotoImage,
                      Toplevel, Entry, StringVar)
 from minesweeper_details import LEVEL_INFO, DISPLAY_OFFSET
 
 # Randomly chooses which bob-omb icon should be used for the displays
 if random.choice([True, False]):
-    ICON_PATH = 'images/bob-omb.ico'
+    ICON_NAME = 'bob-omb'
 else:
-    ICON_PATH = 'images/bob-omb_red.ico'
+    ICON_NAME = 'bob-omb_red'
+
+if platform == 'linux':
+    FONT = 'DejaVu Sans'
+    TIMER_AND_COUNT_FONT = ('DejaVu Serif', 26, 'bold')
+else:
+    FONT = 'Arial'
+    TIMER_AND_COUNT_FONT = ('Stencil', 28)
 
 
 class LevelChoiceDisplay():
@@ -39,13 +47,13 @@ class LevelChoiceDisplay():
         self.root = Tk()
         self.root.resizable(False, False)
         self.root.title('Level Choice')
-        self.root.iconbitmap(ICON_PATH)
+        add_icon(self.root)
         display_width = 300
         display_height = 165
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
-        display_x_pos = screen_width/2 - display_width/2
-        display_y_pos = screen_height*0.45 - display_height/2
+        display_x_pos = int(screen_width/2 - display_width/2)
+        display_y_pos = int(screen_height*0.45 - display_height/2)
         self.root.geometry(f'{display_width}x{display_height}'
                            f'+{display_x_pos}+{display_y_pos}')
 
@@ -63,7 +71,7 @@ class LevelChoiceDisplay():
                              activebackground='dark green',
                              foreground='white',
                              activeforeground='white',
-                             font='Arial 12',
+                             font=(FONT, 12),
                              cursor='hand2',
                              command=lambda: self._set_level('easy'))
         easy_button.place(x=15, y=50, width=80, height=40)
@@ -83,7 +91,7 @@ class LevelChoiceDisplay():
                                activebackground='medium blue',
                                foreground='white',
                                activeforeground='white',
-                               font='Arial 12',
+                               font=(FONT, 12),
                                cursor='hand2',
                                command=lambda: self._set_level('medium'))
         medium_button.place(x=110, y=50, width=80, height=40)
@@ -103,7 +111,7 @@ class LevelChoiceDisplay():
                              activebackground='red3',
                              foreground='white',
                              activeforeground='white',
-                             font='Arial 12',
+                             font=(FONT, 12),
                              cursor='hand2',
                              command=lambda: self._set_level('hard'))
         hard_button.place(x=205, y=50, width=80, height=40)
@@ -123,13 +131,13 @@ class LevelChoiceDisplay():
         self._check_var_view = BooleanVar()
         self._checkbox_play = Checkbutton(self.root,
                                           text='Play Game',
-                                          font='Arial 11',
+                                          font=(FONT, 11),
                                           variable=self._check_var_play,
                                           command=self._update_view_check)
         self._checkbox_play.place(x=50, y=100, width=200, height=25)
         self._checkbox_view = Checkbutton(self.root,
                                           text='View Leaderboard',
-                                          font='Arial 11',
+                                          font=(FONT, 11),
                                           variable=self._check_var_view,
                                           command=self._update_play_check)
         self._checkbox_view.place(x=50, y=130, width=200, height=25)
@@ -187,13 +195,13 @@ class BoardDisplay():
         self.root = Tk()
         self.root.resizable(False, False)
         self.root.title('Minesweeper')
-        self.root.iconbitmap(ICON_PATH)
+        add_icon(self.root)
         self._display_width = LEVEL_INFO[level]['display_width']
         display_height = LEVEL_INFO[level]['display_height'] + DISPLAY_OFFSET
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
-        display_x_pos = screen_width/2 - self._display_width/2
-        display_y_pos = screen_height*0.45 - display_height/2
+        display_x_pos = int(screen_width/2 - self._display_width/2)
+        display_y_pos = int(screen_height*0.45 - display_height/2)
         self.root.geometry(f'{self._display_width}x{display_height}'
                            f'+{display_x_pos}+{display_y_pos}')
 
@@ -222,8 +230,8 @@ class BoardDisplay():
         # Create the mines count label
         self._mine_count_label = Label(self.root,
                                        background='gray22',
-                                       foreground='red')
-        self._mine_count_label.configure(font=('stencil', 28))
+                                       foreground='red',
+                                       font=TIMER_AND_COUNT_FONT)
         self._mine_count_label.place(x=10,
                                      y=5,
                                      width=90,
@@ -242,7 +250,7 @@ class BoardDisplay():
         self._timer_label = Label(self.root,
                                   background='gray22',
                                   foreground='red',
-                                  font='Stencil 28')
+                                  font=TIMER_AND_COUNT_FONT)
         self._timer_label.place(x=self._display_width - 100,
                                 y=5,
                                 width=90,
@@ -332,11 +340,11 @@ class TimesDisplay():
             self.root = Tk()
         self.root.resizable(False, False)
         self.root.title('Top Times')
-        self.root.iconbitmap(ICON_PATH)
+        add_icon(self.root)
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
-        display_x_pos = screen_width/2 - self._display_width/2
-        display_y_pos = screen_height*0.45 - self._display_height/2
+        display_x_pos = int(screen_width/2 - self._display_width/2)
+        display_y_pos = int(screen_height*0.45 - self._display_height/2)
         self.root.geometry(f'{self._display_width}x{self._display_height}'
                            f'+{display_x_pos}+{display_y_pos}')
 
@@ -361,19 +369,19 @@ class TimesDisplay():
                            text='Rank',
                            background=self.window_bg_color,
                            foreground='black',
-                           font='Arial 14 bold')
+                           font=(FONT, 14, 'bold'))
         rank_label.place(x=30, y=5, width=60, height=40)
         username_label = Label(self.root,
                                text='User',
                                background=self.window_bg_color,
                                foreground='black',
-                               font='Arial 14 bold')
+                               font=(FONT, 14, 'bold'))
         username_label.place(x=140, y=5, width=120, height=40)
         time_label = Label(self.root,
                            text='Time',
                            background=self.window_bg_color,
                            foreground='black',
-                           font='Arial 14 bold')
+                           font=(FONT, 14, 'bold'))
         time_label.place(x=300, y=5, width=80, height=40)
 
     def add_entry(self, *, rank, time, username, user_input):
@@ -412,7 +420,7 @@ class TimesDisplay():
         entry_rank = Label(self.root,
                            text=rank,
                            background=color,
-                           font='Arial 12')
+                           font=(FONT, 12))
         entry_rank.place(x=50, y=y_pos, width=20, height=30)
 
     def _add_time(self, y_pos, color, time):
@@ -426,7 +434,7 @@ class TimesDisplay():
         entry_time = Label(self.root,
                            text=time,
                            background=color,
-                           font='Arial 12')
+                           font=(FONT, 12))
         entry_time.place(x=320, y=y_pos, width=40, height=30)
 
     def _add_username(self, y_pos, color, username):
@@ -440,7 +448,7 @@ class TimesDisplay():
         entry_username = Label(self.root,
                                text=username,
                                background=color,
-                               font='Arial 12')
+                               font=(FONT, 12))
         entry_username.place(x=100, y=y_pos, width=200, height=30)
 
     def _create_username_entry(self, y_pos):
@@ -453,7 +461,7 @@ class TimesDisplay():
         self.user_entry = Entry(self.root,
                                 textvariable=self.input_var,
                                 justify='center',
-                                font='Arial 12')
+                                font=(FONT, 12))
         self.user_entry.place(x=100, y=y_pos, width=200, height=30)
 
     def create_enter_button(self):
@@ -463,7 +471,7 @@ class TimesDisplay():
                                    background=self.window_bg_color,
                                    activebackground=self.window_bg_color,
                                    cursor='hand2',
-                                   font='Arial 14')
+                                   font=(FONT, 14))
         self.enter_button.place(x=100,
                                 y=self._display_height-43,
                                 width=200,
@@ -501,3 +509,17 @@ def update_button_color(button, color):
         color (str): Color to set the button background
     """
     button.configure(background=color, activebackground=color)
+
+def add_icon(tk_root):
+    """Adds an icon to the passed Tk display based on OS
+
+    Args:
+        tk_root: Tkinter widget object
+    """
+    if platform == 'linux':
+        icon_path = f'images/{ICON_NAME}.png'
+        icon_image = PhotoImage(file=icon_path)
+        tk_root.wm_iconphoto(False, icon_image)
+    else:
+        icon_path = f'images/{ICON_NAME}.ico'
+        tk_root.iconbitmap(icon_path)
