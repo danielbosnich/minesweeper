@@ -667,24 +667,21 @@ class Game():
             self._update_header(smiley_type='dead',
                                 display_time=self.game_run_time)
             logging.info('Sorry, you exploded. Better luck next time!')
-        if exploded_tile:
-            exploded_x_pos = exploded_tile.position['x']
-            exploded_y_pos = exploded_tile.position['y']
 
         # Disable all the tiles
         for tile in self._board.tiles.values():
             if tile.is_mine:
-                if not self._game_won:
-                    if ((tile.position['x'] == exploded_x_pos) and
-                            (tile.position['y'] == exploded_y_pos)):
-                        tile.disable_button(self.board_display.root)
-                        tile.button.configure(image=self._photo_exploded_mine)
-                    else:
-                        tile.disable_button(self.board_display.root)
-                        tile.button.configure(image=self._photo_mine)
-                elif self._game_won:
+                if self._game_won:
                     tile.disable_button(self.board_display.root)
                     tile.button.configure(image=self._photo_flag)
+                elif (exploded_tile is not None and
+                        (tile.position['x'] == exploded_tile.position['x']) and
+                        (tile.position['y'] == exploded_tile.position['y'])):
+                    tile.disable_button(self.board_display.root)
+                    tile.button.configure(image=self._photo_exploded_mine)
+                else:
+                    tile.disable_button(self.board_display.root)
+                    tile.button.configure(image=self._photo_mine)
                 tile.set_button_color(bg_color='gray95')
             else:
                 tile.disable_button(self.board_display.root)
